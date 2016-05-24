@@ -1,4 +1,5 @@
 using Microsoft.Practices.Unity;
+using OneTimePass.Audit;
 using OneTimePass.Business;
 using OneTimePass.Data;
 using OneTimePass.DataAccess;
@@ -15,6 +16,7 @@ namespace OneTimePass
         public static void RegisterComponents()
         {
             container.RegisterType<IPasswordGenerator, PasswordGenerator>();
+            container.RegisterType<IAuditLogger, AuditLogger>();
             container.RegisterType<IRepository<Account>, AccountMockRepository>();
 
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);

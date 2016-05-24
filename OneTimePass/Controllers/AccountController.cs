@@ -1,4 +1,5 @@
-﻿using OneTimePass.Business;
+﻿using OneTimePass.Audit;
+using OneTimePass.Business;
 using OneTimePass.Data;
 using OneTimePass.DataAccess;
 using OneTimePass.Models;
@@ -17,13 +18,16 @@ namespace OneTimePass.Controllers
     {
         private IPasswordGenerator passwordGenerator;
         private AccountBusiness accountBusiness;
+        private IAuditLogger auditLogger;
 
         public AccountController(
             IPasswordGenerator passwordGenerator,
-            IRepository<Account> accountRepo)
+            IRepository<Account> accountRepo,
+            IAuditLogger auditLogger)
         {
             this.passwordGenerator = passwordGenerator;
             this.accountBusiness = new AccountBusiness(accountRepo);
+            this.auditLogger = auditLogger;
         }
 
         [HttpGet]
@@ -67,6 +71,45 @@ namespace OneTimePass.Controllers
             {
                 // log exception
                 return null;
+            }
+        }
+
+        [HttpGet]
+        public bool Login(string username, string password)
+        {
+            try
+            {
+                var account = accountBusiness.GetAccount(username);
+                if (account == null )
+                {
+                    auditLogger.Log(
+                        string.Format("Unsucessfully login. User {0} cannot be found ({1})", (username ?? "not-defined"), DateTime.UtcNow));
+                    return false;
+                }
+
+                if (account.Password != password)
+                {
+                    auditLogger.Log(
+                        string.Format("Unsucessfully login. User {0} wrong password ({1})", username, DateTime.UtcNow));
+
+                    return false;
+                }
+
+                if (account.PasswordExpiration < DateTime.UtcNow)
+                {
+                    auditLogger.Log(
+                        string.Format("Unsucessfully login. User {0} expired password ({1})", username, DateTime.UtcNow));
+
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
             }
         }
     }

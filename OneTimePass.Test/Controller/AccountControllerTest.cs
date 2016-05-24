@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OneTimePass.Audit;
 using OneTimePass.Business;
 using OneTimePass.Controllers;
 using OneTimePass.DataAccess;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace OneTimePass.Test.Controller
@@ -19,7 +21,8 @@ namespace OneTimePass.Test.Controller
         {
             AccountController controller = new AccountController(
                 new PasswordGenerator(),
-                new AccountMockRepository());
+                new AccountMockRepository(),
+                new AuditLogger());
 
             var response = controller.GeneratePassword(null);
 
@@ -31,7 +34,8 @@ namespace OneTimePass.Test.Controller
         {
             AccountController controller = new AccountController(
                 new PasswordGenerator(),
-                new AccountMockRepository());
+                new AccountMockRepository(),
+                new AuditLogger());
 
             var response = controller.GeneratePassword(string.Empty);
 
@@ -43,7 +47,8 @@ namespace OneTimePass.Test.Controller
         {
             AccountController controller = new AccountController(
                 new PasswordGenerator(),
-                new AccountMockRepository());
+                new AccountMockRepository(),
+                new AuditLogger());
 
             var response = controller.GeneratePassword("notAnUser");
 
@@ -55,7 +60,8 @@ namespace OneTimePass.Test.Controller
         {
             AccountController controller = new AccountController(
                 new PasswordGenerator(),
-                new AccountMockRepository());
+                new AccountMockRepository(),
+                new AuditLogger());
 
             var response = controller.GeneratePassword("demo1");
 
@@ -74,7 +80,8 @@ namespace OneTimePass.Test.Controller
 
             AccountController controller = new AccountController(
                new PasswordGenerator(),
-               mockRepository);
+               mockRepository,
+               new AuditLogger());
 
             var response = controller.GeneratePassword("demo1");
 
@@ -90,5 +97,112 @@ namespace OneTimePass.Test.Controller
             var account = mockRepository.Get(x => x.Password == response.Password);
             Assert.AreEqual(account.Username, response.Username);
         }
+
+        [Test]
+        public void UnsuccessfullyLoginWithNoUserTest()
+        {
+            var auditLogger = new AuditLogger();
+
+            AccountController controller = new AccountController(
+               new PasswordGenerator(),
+               new AccountMockRepository(),
+               auditLogger);
+
+            var result = controller.Login(null, null);
+            Assert.IsFalse(result);
+
+            var log = auditLogger.GetLastLine();
+            Assert.IsTrue(log.Contains("cannot be found"));
+        }
+
+        [Test]
+        public void UnsuccessfullyLoginWithNotExistingUserTest()
+        {
+            var auditLogger = new AuditLogger();
+
+            AccountController controller = new AccountController(
+               new PasswordGenerator(),
+               new AccountMockRepository(),
+               auditLogger);
+
+            var result = controller.Login("notAnUser", null);
+            Assert.IsFalse(result);
+
+            var log = auditLogger.GetLastLine();
+            Assert.IsTrue(log.Contains("cannot be found"));
+        }
+
+        [Test]
+        public void UnsuccessfullyLoginWithWrongPasswordTest()
+        {
+            var auditLogger = new AuditLogger();
+
+            AccountController controller = new AccountController(
+               new PasswordGenerator(),
+               new AccountMockRepository(),
+               auditLogger);
+
+            var response = controller.GeneratePassword("demo1");
+
+            var result = controller.Login("demo1", response.Password + "x");
+            Assert.IsFalse(result);
+
+            var log = auditLogger.GetLastLine();
+            Assert.IsTrue(log.Contains("wrong password"));
+        }
+
+        [Test]
+        public void UnsuccessfullyLoginExpiredPasswordTest()
+        {
+            var auditLogger = new AuditLogger();
+
+            AccountController controller = new AccountController(
+               new PasswordGenerator(),
+               new AccountMockRepository(),
+               auditLogger);
+
+            var response = controller.GeneratePassword("demo1");
+
+            Thread.Sleep(1000 * 31);
+
+            var result = controller.Login("demo1", response.Password);
+            Assert.IsFalse(result);
+
+            var log = auditLogger.GetLastLine();
+            Assert.IsTrue(log.Contains("expired password"));
+        }
+
+        [Test]
+        public void SuccessfullyLoginTest()
+        {
+            var auditLogger = new AuditLogger();
+
+            AccountController controller = new AccountController(
+               new PasswordGenerator(),
+               new AccountMockRepository(),
+               auditLogger);
+
+            var result = controller.Login("demo1", "abcdefg");
+            Assert.IsTrue(result);
+        }
+
+        [Test]
+        public void SuccessfullyLogiChangePasswordTest()
+        {
+            var auditLogger = new AuditLogger();
+
+            AccountController controller = new AccountController(
+               new PasswordGenerator(),
+               new AccountMockRepository(),
+               auditLogger);
+
+            var response = controller.GeneratePassword("demo1");
+
+            Thread.Sleep(1000 * 5);
+
+            var result = controller.Login("demo1", response.Password);
+            Assert.IsTrue(result);
+        }
+
     }
 }

@@ -127,6 +127,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OneTimePass.Audit\OneTimePass.Audit.csproj">
+      <Project>{286037ff-e683-4131-a253-66573d707bdc}</Project>
+      <Name>OneTimePass.Audit</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OneTimePass.Business\OneTimePass.Business.csproj">
       <Project>{46417e3a-96e8-4d3f-8792-cd36aed680fd}</Project>
       <Name>OneTimePass.Business</Name>
