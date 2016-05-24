@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneTimePass", "OneTimePass\OneTimePass.csproj", "{F790A455-EF91-4498-B609-32B7DD2B83FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneTimePass.Business", "OneTimePass.Business\OneTimePass.Business.csproj", "{46417E3A-96E8-4D3F-8792-CD36AED680FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneTimePass.DataModel", "OneTimePass.Data\OneTimePass.DataModel.csproj", "{C22BAA7E-97AF-4490-B9DB-89A0B744C21A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneTimePass.DataAccess", "OneTimePass.DataAccess\OneTimePass.DataAccess.csproj", "{32523357-802D-43A8-8805-FC02CB2E64BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneTimePass.Util", "OneTimePass.Util\OneTimePass.Util.csproj", "{079BF430-D8A0-4DFC-AB30-7560AF1E9202}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OneTimePass.Test", "OneTimePass.Test\OneTimePass.Test.csproj", "{43FC225C-28E0-42A9-AE2C-C9E42F06905E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F790A455-EF91-4498-B609-32B7DD2B83FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F790A455-EF91-4498-B609-32B7DD2B83FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F790A455-EF91-4498-B609-32B7DD2B83FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F790A455-EF91-4498-B609-32B7DD2B83FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46417E3A-96E8-4D3F-8792-CD36AED680FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46417E3A-96E8-4D3F-8792-CD36AED680FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46417E3A-96E8-4D3F-8792-CD36AED680FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46417E3A-96E8-4D3F-8792-CD36AED680FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C22BAA7E-97AF-4490-B9DB-89A0B744C21A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C22BAA7E-97AF-4490-B9DB-89A0B744C21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C22BAA7E-97AF-4490-B9DB-89A0B744C21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C22BAA7E-97AF-4490-B9DB-89A0B744C21A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32523357-802D-43A8-8805-FC02CB2E64BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32523357-802D-43A8-8805-FC02CB2E64BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32523357-802D-43A8-8805-FC02CB2E64BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32523357-802D-43A8-8805-FC02CB2E64BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{079BF430-D8A0-4DFC-AB30-7560AF1E9202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{079BF430-D8A0-4DFC-AB30-7560AF1E9202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{079BF430-D8A0-4DFC-AB30-7560AF1E9202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{079BF430-D8A0-4DFC-AB30-7560AF1E9202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43FC225C-28E0-42A9-AE2C-C9E42F06905E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43FC225C-28E0-42A9-AE2C-C9E42F06905E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43FC225C-28E0-42A9-AE2C-C9E42F06905E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43FC225C-28E0-42A9-AE2C-C9E42F06905E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
